@@ -22,32 +22,32 @@ blocks([N1,N2,N3|Ns1], [N4,N5,N6|Ns2], [N7,N8,N9|Ns3]) :-
     all_distinct([N1,N2,N3,N4,N5,N6,N7,N8,N9]),
     blocks(Ns1, Ns2, Ns3).
 
-% generates a "random" filled sudoku board
-random_filled_sudoku(1, P) :-
-    rand_fill(A),
-    rand_fill(B),
-    rand_fill(C),
-    rand_fill(D),
-    rand_fill(E),
-    rand_fill(F),
-    rand_fill(G),
-    rand_fill(H),
-    rand_fill(I),
-    rand_fill(J),
-    rand_fill(K),
-    rand_fill(L),
-    P = [[A,_,_,_,_,_,_,E,_],
-            [_,_,B,_,_,_,_,_,_],
-            [_,_,_,C,_,_,_,_,_],
-            [_,_,_,_,_,_,D,_,_],
-            [_,F,_,_,G,_,_,_,_],
-            [_,_,_,_,_,H,_,_,_],
-            [I,_,_,_,_,_,_,_,_],
-            [_,_,_,J,_,_,_,_,K],
-            [_,_,_,_,_,_,_,L,_]].
+% % generates a "random" filled sudoku board
+% random_filled_sudoku(1, P) :-
+%     rand_fill(A),
+%     rand_fill(B),
+%     rand_fill(C),
+%     rand_fill(D),
+%     rand_fill(E),
+%     rand_fill(F),
+%     rand_fill(G),
+%     rand_fill(H),
+%     rand_fill(I),
+%     rand_fill(J),
+%     rand_fill(K),
+%     rand_fill(L),
+%     P = [[A,_,_,_,_,_,_,E,_],
+%             [_,_,B,_,_,_,_,_,_],
+%             [_,_,_,C,_,_,_,_,_],
+%             [_,_,_,_,_,_,D,_,_],
+%             [_,F,_,_,G,_,_,_,_],
+%             [_,_,_,_,_,H,_,_,_],
+%             [I,_,_,_,_,_,_,_,_],
+%             [_,_,_,J,_,_,_,_,K],
+%             [_,_,_,_,_,_,_,L,_]].
 
-rand_fill(X) :- 
-    random(1, 10, X).
+% rand_fill(X) :- 
+%     random(1, 10, X).
 
 % A killer-sudoku board is represented as: 
 %   - a 9x9 2D matrix of labels representing the cage each square is in
@@ -67,12 +67,12 @@ sum_cages([Row|Rest], [CRow|CRest], Sums, Sums2) :-
     sum_row(Row, CRow, Sums, Sums1),
     sum_cages(Rest, CRest, Sums1, Sums2).
 
-sum_row([X], [XCage], Cage_sums, Cage_sums2) :-
-    update_ith(XCage, Cage_sums, X, Cage_sums2).
+sum_row([], _, Cage_sums, Cage_sums).
 sum_row([X|T], [XCage|TCages], Cage_sums, Cage_sums2) :-
     update_ith(XCage, Cage_sums, X, Cage_sums1),
     sum_row(T, TCages, Cage_sums1, Cage_sums2).
 
+% Adds X to element at index I in second parameter list -> last parameter
 update_ith(0, [H|T], X, [X1|T]) :-
     X1 #= X + H.
 update_ith(I, [H|T], X, [H|T2]) :-
