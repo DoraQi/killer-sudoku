@@ -46,9 +46,11 @@ body {
 .overlay {
   align-items: center;
   overlay: hidden;
-  height: 100vh;
   z-index: -1;
   background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  /* Added rounded borders */
 }
 
 

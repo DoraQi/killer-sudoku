@@ -8,7 +8,6 @@
     grid-template-rows: repeat(3, 1fr);
     background-color: #fff;
     padding: 1rem;
-    border: 2px solid #000;
     gap: 1px;
     /* Add a 1px gap between grid items */
 }
@@ -23,6 +22,7 @@
 
 
 .cell {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,9 +34,8 @@
     padding: 0.2rem;
 }
 
-
 .cageLabel {
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     font-size: 10px;
