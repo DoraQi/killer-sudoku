@@ -3,14 +3,14 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .buttonRow {
   display: flex;
-  justify-content: left;
-  gap: 1rem;
-  max-width: 320px;
-  max-height: fit-content;
+  justify-content: center;
+  max-width: 400px;
 }
 
 .logo {

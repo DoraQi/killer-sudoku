@@ -33,7 +33,17 @@ function App() {
       {loading ? (
         <div className="loading-wheel">Loading...</div>
       ) : (
-        <div>
+        <div style={
+          {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            padding: '4rem'
+          }
+
+        }>
           <div className={"buttonRow"}>
             <Button buttonText="Reset Entries" onClick={() => { setBoard(initialBoard) }} />
             <Button buttonText="Generate New Board" onClick={() => { setReload(!reload) }} />

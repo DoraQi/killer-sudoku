@@ -6,9 +6,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    max-width: fit-content;
     background-color: #fff;
-    padding: 1rem;
-    gap: 1px;
     /* Add a 1px gap between grid items */
 }
 
@@ -29,9 +28,8 @@
     border: 1px dotted #00000083;
     background-color: #fff;
     box-sizing: border-box;
-    width: 40px;
-    height: 40px;
     padding: 0.2rem;
+    aspect-ratio: 1;
 }
 
 .cageLabel {
