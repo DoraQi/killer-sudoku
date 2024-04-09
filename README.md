@@ -5,6 +5,8 @@ This is a web application to generate, verify solution for, and solve killer-sud
 
 
 ## Running the application
+Start the servers and go to http://localhost:5173/
+
 ### Prolog server
 To start the server, run in root directory:
 ```
