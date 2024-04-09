@@ -6,6 +6,10 @@
 :- use_module(library(http/http_files)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
+:- use_module(library(http/http_cors)).
+
+% CORS Enable
+:- set_setting(http:cors, [*]).
 
 % Load web app modules.
 :- [app/init].
@@ -41,7 +45,8 @@ verify_sudoku_soln(JSON, Result) :-
     get_dict(cagevalues, JSON, CageValues),
     verify_sudoku(Board, Cages, CageValues, Result).
 
-serve_generate_killer(_) :-
+serve_generate_killer(Request) :-
+    cors_enable(Request, [methods([get])]),
     generate_killer_sudoku_cages(Cages),
     cages_to_json(Cages, JSON),
     reply_json_dict(JSON).

@@ -4,17 +4,24 @@ import './KillerSudoku.css';
 export interface KillerSudokuProps {
     board: { value: string, cageId: number }[][];
     setBoard: (board: { value: string, cageId: number }[][]) => void;
-    cages: { sum: number, cells: number[][] }[];
+    cages: { cageId: number, cells: number[][], sum: number }[];
 }
 
 
 // Assuming each cell in the board is an object with a value and cage id
 export default function KillerSudoku({ board, setBoard, cages }: KillerSudokuProps) {
     // Assign each cage an id 
-    const cagesWithId = cages.map((cage, index) => ({ ...cage, id: index }));
-    const cageMap = cagesWithId.reduce((acc, cage) => {
+    console.log(cages);
+    cages = structuredClone(cages);
+    cages = cages.map((cage) => {
+        // Subtrace 1 from the index to make the ids 0-based
+        cage.cells = cage.cells.map(cell => [cell[0] - 1, cell[1] - 1]);
+        return cage;
+    })
+    console.log(cages);
+    const cageMap = cages.reduce((acc, cage) => {
         cage.cells.forEach(cell => {
-            acc[`${cell[0]}-${cell[1]}`] = cage.id;
+            acc[`${cell[0]}-${cell[1]}`] = cage.cageId;
         });
         return acc;
     }, {} as { [key: string]: number });
@@ -32,7 +39,7 @@ export default function KillerSudoku({ board, setBoard, cages }: KillerSudokuPro
     };
 
     const findCageByCell = (row: number, col: number) => {
-        return cagesWithId.find(cage => cage.cells.some(cell => cell[0] === row && cell[1] === col));
+        return cages.find(cage => cage.cells.some(cell => cell[0] === row && cell[1] === col));
     }
 
 
@@ -51,7 +58,7 @@ export default function KillerSudoku({ board, setBoard, cages }: KillerSudokuPro
                             // Assign the cell color depending on the cage id
                             // We want to use 5 colors, and assign them to the cages to ensure that no two cages with the same color are adjacent
                             const colors = ["#FFCCCC", "#CCFFCC", "#CCCCFF", "#FFFFCC", "#FFCCFF"];
-                            let cageColor = colorMap[cage.id];
+                            let cageColor = colorMap[cage.cageId];
                             if (!cageColor) {
                                 const adjacentCageColors = [] as string[];
                                 for (i = 0; i < cage.cells.length; i++) {
@@ -64,8 +71,8 @@ export default function KillerSudoku({ board, setBoard, cages }: KillerSudokuPro
                                     adjacentCageColors.push(colorMap[getCageIdByCell(currRow, currCol + 1)]);
                                 }
                                 const availableColors = colors.filter(color => !adjacentCageColors.includes(color));
-                                cageColor = availableColors[cage.id % availableColors.length];
-                                colorMap[cage.id] = cageColor;
+                                cageColor = availableColors[cage.cageId % availableColors.length];
+                                colorMap[cage.cageId] = cageColor;
                             }
                             const cellStyle = {
                                 backgroundColor: cageColor,

@@ -88,8 +88,9 @@ merge_cage_pair(Cage1, Cage2, CagesIn, CagesOut) :-
 	length(Cage1.cells, Cage1Size),
 	length(Cage2.cells, Cage2Size),
 	(
-		Cage1Size + Cage2Size > 9 -> 
-		CagesOut = CagesIn;
+		Cage1Size + Cage2Size > 9 ->
+		CagesOut = CagesIn,
+		!;
 		true
 	),
 	(
@@ -149,3 +150,12 @@ print_killer_sudoku_cages(Cages) :-
 
 print_killer_sudoku_cage(Cage) :-
 	format('Cage ~w: ~w~n', [Cage.cageId, Cage]).
+
+example :-
+	generate_killer_sudoku_cages(Cages),
+	maplist(cage_cells, Cages, Cells),
+	length(Cells, 81),	
+	print_killer_sudoku_cages(Cages).
+
+cage_cells(Cage, Cells) :-
+	Cage.cells = Cells.
