@@ -95,7 +95,7 @@ merge_cage_pair(Cage1, Cage2, CagesIn, CagesOut) :-
 	(
 		Cage1Size + Cage2Size > 2 -> 
 		TopBound is 10 * (Cage1Size + Cage2Size);
-		TopBound is 10
+		TopBound is 2
 	),
 	random(0, TopBound, R),
 	(R < 1 -> 
@@ -121,7 +121,7 @@ adjacent(Row, Col, AdjRow, AdjCol) :- AdjRow is Row, AdjCol is Col + 1.
 generate_killer_sudoku_cages(FinalCages) :-
 	generate_sudoku(Board),
 	initialize_cages(Board, CagesIn),
-	merge_cage_iters(7, CagesIn, Cages),
+	merge_cage_iters(3, CagesIn, Cages),
 	assoc_to_list(Cages, CageList),
     maplist(cage_id_pair, CageList, CageIdPairs),
     predsort(compare_cage_id, CageIdPairs, SortedCageIdPairs),
@@ -143,3 +143,9 @@ remove_consecutive_duplicates([X, X|Xs], Ys) :-
 remove_consecutive_duplicates([X, Z|Xs], [X|Ys]) :-
     X \= Z,
     remove_consecutive_duplicates([Z|Xs], Ys).
+
+print_killer_sudoku_cages(Cages) :-
+	maplist(print_killer_sudoku_cage, Cages).
+
+print_killer_sudoku_cage(Cage) :-
+	format('Cage ~w: ~w~n', [Cage.cageId, Cage]).

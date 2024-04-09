@@ -3,3 +3,5 @@
 
 % Initialise URL paths.
 :- [urls].
+:- [puzzle_gen].
+:- [solver].

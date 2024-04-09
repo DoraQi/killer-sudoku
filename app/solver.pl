@@ -17,11 +17,6 @@ sudoku_solve(Rows) :-
     blocks(Ds, Es, Fs),
     blocks(Gs, Hs, Is).
 
-blocks([], [], []).
-blocks([N1,N2,N3|Ns1], [N4,N5,N6|Ns2], [N7,N8,N9|Ns3]) :-
-    all_distinct([N1,N2,N3,N4,N5,N6,N7,N8,N9]),
-    blocks(Ns1, Ns2, Ns3).
-
 killer_sudoku(Rows, Cages, CageValues) :-
     sudoku_solve(Rows),
     obey_cages(Rows, Cages, CageValues),
