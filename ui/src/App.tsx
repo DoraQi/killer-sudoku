@@ -27,6 +27,51 @@ function App() {
       });
   }, [reload]);
 
+  const getCageMatrix = (cages: { cageId: number, cells: number[][], sum: number }[]) => {
+    const cageMatrix = Array(9).fill(null).map(() => Array(9).fill(null));
+    cages.forEach(cage => {
+      cage.cells.forEach(cell => {
+        cageMatrix[cell[0]][cell[1]] = cage.cageId;
+      });
+    });
+    return cageMatrix;
+  }
+  const getCageValues = (cages: { cageId: number, cells: number[][], sum: number }[]) => {
+    // Put all sums of cages into array sorted by cageId
+    const cageIdPairs = cages.map(cage => [cage.cageId, cage.sum]);
+    cageIdPairs.sort((a, b) => a[0] - b[0]);
+    return cageIdPairs.map(pair => pair[1]);
+  }
+
+  const verifyBoard = () => {
+    const cageMatrix = getCageMatrix(cages);
+    const cageValues = getCageValues(cages);
+    fetch('http://localhost:8000/api/killer-sudoku/verify-puzzle', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        board: board.map(row => row.map(cell => cell.value)),
+        cages: cageMatrix,
+        cagevalues: cageValues,
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.valid) {
+          alert('Solution is correct!');
+        } else {
+          alert('Solution is incorrect!');
+        }
+      });
+  }
+
   return (
     <div>
       <h1>Killer Sudoku</h1>
@@ -37,7 +82,7 @@ function App() {
           <div className={"buttonRow"}>
             <Button buttonText="Reset Entries" onClick={() => { setBoard(initialBoard) }} />
             <Button buttonText="Generate New Board" onClick={() => { setReload(!reload) }} />
-            <Button buttonText="Check Solution" onClick={() => { alert('Checking solution') }} />
+            <Button buttonText="Verify Solution" onClick={verifyBoard} />
           </div>
           <KillerSudoku
             board={board}
