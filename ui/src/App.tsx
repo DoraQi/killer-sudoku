@@ -29,9 +29,9 @@ function App() {
 
   const getCageMatrix = (cages: { cageId: number, cells: number[][], sum: number }[]) => {
     const cageMatrix = Array(9).fill(null).map(() => Array(9).fill(null));
-    cages.forEach(cage => {
+    cages.forEach((cage, newIndex) => {
       cage.cells.forEach(cell => {
-        cageMatrix[cell[0]][cell[1]] = cage.cageId;
+        cageMatrix[cell[0]][cell[1]] = newIndex;
       });
     });
     return cageMatrix;
