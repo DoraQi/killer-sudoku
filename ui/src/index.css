@@ -11,8 +11,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  justify-content: center;
 }
 
 a {
@@ -49,12 +47,13 @@ body {
 .overlay {
   align-items: center;
   overlay: hidden;
-  z-index: -1;
+  z-index: 1;
   background-color: white;
   padding: 1rem;
   border-radius: 8px;
   height: 50%;
   width: 50%;
+  /* Added rounded borders */
 }
 
 
