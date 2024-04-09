@@ -21,4 +21,5 @@ npm run dev
 
 ## Resources used
 Server is based off of https://github.com/lloydtao/prolog-web-application
+
 Referenced the sudoku example in https://github.com/triska/clpz
