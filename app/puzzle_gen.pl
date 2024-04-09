@@ -81,7 +81,7 @@ merge_cage_with_adjacent(Cage, [AdjacentCage|Rest], Cages, MergedCages) :-
 	length(AdjacentCage.cells, AdjCageSize),
 	NewCageSize is CurrCageSize + AdjCageSize,
 	% Merge with probability of 10%
-	TopProb is 9 * NewCageSize,
+	get_top_bound(CurrCageSize, AdjCageSize, TopProb),
 	random(0, TopProb, P),
 	(NewCageSize =< 9, P =:= 0 ->
 		% Merge the cages
@@ -90,6 +90,9 @@ merge_cage_with_adjacent(Cage, [AdjacentCage|Rest], Cages, MergedCages) :-
 		% Skip the merge
 		merge_cage_with_adjacent(Cage, Rest, Cages, MergedCages)
 	).
+
+get_top_bound(1, 1, TopBound) :- TopBound is 2.
+get_top_bound(X, Y, TopBound) :- TopBound is 10 * (X + Y).
 
 merge_cage_pair(Cage1, Cage2, Cages, MergedCages) :-
 	% Merge the cells
