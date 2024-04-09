@@ -17,24 +17,17 @@
 % Serve static files for each web app module.
 :- http_handler('/api/ping', serve_ping, []).
 % :- http_handler('/api/sudoku/new-puzzle', serve_new_sudoku, []).
-:- http_handler('/api/sudoku/verify-puzzle', serve_verify_soln, []).
-:- http_handler('/api/sudoku/solve', serve_solve, []).
+:- http_handler('/api/killer-sudoku/verify-puzzle', serve_verify_soln, []).
+:- http_handler('/api/killer-sudoku/solve', serve_solve, []).
 :- http_handler('/api/killer-sudoku/generate', serve_generate_killer, []).
 
 
 serve_ping(_) :-
     reply_json_dict(_{status: "ok"}).
 
-
-% Serve the new sudoku puzzle.
-
-% serve_new_sudoku(Request) :-
-%     new_sudoku_puzzle(Puzzle),
-%     reply_json_dict(Puzzle).
-
-
 % % Serve the solution verification.
 serve_verify_soln(Request) :-
+    cors_enable(Request, [methods([post])]),
     http_read_json_dict(Request, JSON),
     verify_sudoku_soln(JSON, Result),
     reply_json_dict(Result).
@@ -73,6 +66,7 @@ verify_sudoku(Board, Cages, CageValues, Result) :-
 
 % Serve the solution.
 serve_solve(Request) :-
+    cors_enable(Request, [methods([post])]),
     http_read_json_dict(Request, JSON),
     solve_sudoku(JSON, Result),
     reply_json_dict(Result).
