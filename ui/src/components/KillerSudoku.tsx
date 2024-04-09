@@ -11,14 +11,7 @@ export interface KillerSudokuProps {
 // Assuming each cell in the board is an object with a value and cage id
 export default function KillerSudoku({ board, setBoard, cages }: KillerSudokuProps) {
     // Assign each cage an id 
-    console.log(cages);
     cages = structuredClone(cages);
-    cages = cages.map((cage) => {
-        // Subtrace 1 from the index to make the ids 0-based
-        cage.cells = cage.cells.map(cell => [cell[0] - 1, cell[1] - 1]);
-        return cage;
-    })
-    console.log(cages);
     const cageMap = cages.reduce((acc, cage) => {
         cage.cells.forEach(cell => {
             acc[`${cell[0]}-${cell[1]}`] = cage.cageId;

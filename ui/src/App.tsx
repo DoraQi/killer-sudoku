@@ -23,7 +23,7 @@ function App() {
         setCages(data);
         setLoading(false);
       });
-  }, [cages]);
+  }, []);
 
   return (
     <div>
