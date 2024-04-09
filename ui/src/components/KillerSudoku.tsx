@@ -12,6 +12,8 @@ export interface KillerSudokuProps {
 export default function KillerSudoku({ board, setBoard, cages }: KillerSudokuProps) {
     // Assign each cage an id 
     cages = structuredClone(cages);
+    // sort cells in each cage
+    cages.forEach(cage => cage.cells.sort((a, b) => a[0] - b[0] || a[1] - b[1]));
     const cageMap = cages.reduce((acc, cage) => {
         cage.cells.forEach(cell => {
             acc[`${cell[0]}-${cell[1]}`] = cage.cageId;

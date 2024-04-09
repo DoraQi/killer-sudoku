@@ -5,6 +5,14 @@
   text-align: center;
 }
 
+.buttonRow {
+  display: flex;
+  justify-content: left;
+  gap: 1rem;
+  max-width: 320px;
+  max-height: fit-content;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
