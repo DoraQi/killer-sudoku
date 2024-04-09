@@ -5,7 +5,7 @@
 
 % sudoku solver, from:
 % https://github.com/triska/clpz/tree/master
-sudoku(Rows) :-
+sudoku_solve(Rows) :-
     length(Rows, 9),
     maplist(same_length(Rows), Rows),
     append(Rows, Vs), Vs ins 1..9,
@@ -22,43 +22,13 @@ blocks([N1,N2,N3|Ns1], [N4,N5,N6|Ns2], [N7,N8,N9|Ns3]) :-
     all_distinct([N1,N2,N3,N4,N5,N6,N7,N8,N9]),
     blocks(Ns1, Ns2, Ns3).
 
-% % generates a "random" filled sudoku board
-% random_filled_sudoku(1, P) :-
-%     rand_fill(A),
-%     rand_fill(B),
-%     rand_fill(C),
-%     rand_fill(D),
-%     rand_fill(E),
-%     rand_fill(F),
-%     rand_fill(G),
-%     rand_fill(H),
-%     rand_fill(I),
-%     rand_fill(J),
-%     rand_fill(K),
-%     rand_fill(L),
-%     P = [[A,_,_,_,_,_,_,E,_],
-%             [_,_,B,_,_,_,_,_,_],
-%             [_,_,_,C,_,_,_,_,_],
-%             [_,_,_,_,_,_,D,_,_],
-%             [_,F,_,_,G,_,_,_,_],
-%             [_,_,_,_,_,H,_,_,_],
-%             [I,_,_,_,_,_,_,_,_],
-%             [_,_,_,J,_,_,_,_,K],
-%             [_,_,_,_,_,_,_,L,_]].
-
-% rand_fill(X) :- 
-%     random(1, 10, X).
-
-% A killer-sudoku board is represented as: 
-%   - a 9x9 2D matrix of labels representing the cage each square is in
-%   - an array where i-th element is the sum of cage i
-
 killer_sudoku(Rows, Cages, CageValues) :-
-    sudoku(Rows),
+    sudoku_solve(Rows),
     obey_cages(Rows, Cages, CageValues).
 
 obey_cages(Rows, Cages, CageValues) :-
-    generate_zero_list(81, Zeros),
+    length(CageValues, L),
+    generate_zero_list(L, Zeros),
     sum_cages(Rows, Cages, Zeros, Sums),
     equal(Sums, CageValues).
 
@@ -93,6 +63,10 @@ add_elem(X, Y) :-
     random(1, 10, Z),
     append(X, Z, Y).
 
+print_list([]).
+print_list([H|T]) :-
+    write(H), nl,
+    print_list(T).
 
 % % complete_board(Before, After) :-
 % %     boards_match(Before, After),
