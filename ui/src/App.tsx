@@ -49,8 +49,7 @@ function App() {
     fetch('/api/killer-sudoku/verify-puzzle', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Referrer-Policy': 'unsafe-url'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         board: board.map(row => row.map(cell => {
@@ -78,6 +77,36 @@ function App() {
       });
   }
 
+const toBoard = (data: number[][]) => {
+  return data.map(row => row.map(cell => {
+    return {value: cell};
+  }));
+}
+
+const solveBoard = () => {
+  const cageMatrix = getCageMatrix(cages);
+  const cageValues = getCageValues(cages);
+  fetch('/api/killer-sudoku/solve-puzzle', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      cages: cageMatrix,
+      cagevalues: cageValues,
+    })
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch');
+      }
+      return response.json();
+    })
+    .then((data): void => {
+      setBoard(toBoard(data));
+    });
+}
+
   return (
     <div>
       <h1>Killer Sudoku</h1>
@@ -89,6 +118,7 @@ function App() {
             <Button buttonText="Reset Entries" onClick={() => { setBoard(initialBoard) }} />
             <Button buttonText="Generate New Board" onClick={() => { setReload(!reload) }} />
             <Button buttonText="Verify Solution" onClick={verifyBoard} />
+            <Button buttonText="Solve Puzzle" onClick={solveBoard} />
           </div>
           <KillerSudoku
             board={board}

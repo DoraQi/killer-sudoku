@@ -17,7 +17,7 @@
 % Serve static files for each web app module.
 :- http_handler('/api/ping', serve_ping, []).
 :- http_handler('/api/killer-sudoku/verify-puzzle', serve_verify_soln, []).
-:- http_handler('/api/killer-sudoku/solve', serve_solve, []).
+:- http_handler('/api/killer-sudoku/solve-puzzle', serve_solve, []).
 :- http_handler('/api/killer-sudoku/generate', serve_generate_killer, []).
 
 
@@ -55,9 +55,6 @@ cage_to_json(Cage, JSON) :-
     JSON = _{sum: Sum, cells: CellsList, cageId: CageId}.
 
 cell_to_list(X-Y, [X, Y]).
-
-
-
 
 verify_sudoku(Board, Cages, CageValues, Result) :-
     (killer_sudoku(Board, Cages, CageValues) -> Result = _{status: "ok"};
