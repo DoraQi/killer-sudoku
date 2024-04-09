@@ -106,7 +106,15 @@ merge_cage_pair(Cage1, Cage2, Cages, MergedCages) :-
 	% Add the new cage
 	append(TempCages2, [NewCage], MergedCages).
 
-generate_killer_sudoku_cages(Result) :-
+generate_killer_sudoku_cages(Result, Difficulty) :-
 	generate_sudoku(Board),
 	init_cages_with_sums(Board, Cages),
-	generate_merged_cages(3, Cages, Result).
+	format('Difficulty: ~w~n', [Difficulty]),
+	generate_merged_cages_with_difficulty(Difficulty, Cages, Result).
+
+generate_merged_cages_with_difficulty(Difficulty, Cages, Result) :-
+	Difficulty is 0,
+	Result = Cages.
+generate_merged_cages_with_difficulty(Difficulty, Cages, Result) :-
+	Difficulty > 0,
+	generate_merged_cages(Difficulty, Cages, Result).
