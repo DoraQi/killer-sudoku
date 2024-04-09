@@ -16,7 +16,6 @@
 
 % Serve static files for each web app module.
 :- http_handler('/api/ping', serve_ping, []).
-% :- http_handler('/api/sudoku/new-puzzle', serve_new_sudoku, []).
 :- http_handler('/api/killer-sudoku/verify-puzzle', serve_verify_soln, []).
 :- http_handler('/api/killer-sudoku/solve', serve_solve, []).
 :- http_handler('/api/killer-sudoku/generate', serve_generate_killer, []).

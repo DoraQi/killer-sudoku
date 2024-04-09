@@ -12,7 +12,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
   useEffect(() => {
-    fetch('http://localhost:8000/api/killer-sudoku/generate', {
+    fetch('/api/killer-sudoku/generate', {
       method: 'GET',
     })
       .then(response => {
@@ -46,13 +46,19 @@ function App() {
   const verifyBoard = () => {
     const cageMatrix = getCageMatrix(cages);
     const cageValues = getCageValues(cages);
-    fetch('http://localhost:8000/api/killer-sudoku/verify-puzzle', {
+    fetch('/api/killer-sudoku/verify-puzzle', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Referrer-Policy': 'unsafe-url'
       },
       body: JSON.stringify({
-        board: board.map(row => row.map(cell => cell.value)),
+        board: board.map(row => row.map(cell => {
+          if (cell.value === '') {
+            return 0;
+          }
+          return parseInt(cell.value);
+        })),
         cages: cageMatrix,
         cagevalues: cageValues,
       })
